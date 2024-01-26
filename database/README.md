@@ -17,3 +17,9 @@ To start the PostgreSQL server, run the following command:
 
 ```bash
 docker-compose up -d
+
+### Creating a Prisma Migration
+
+```bash
+npx prisma migrate dev --name add <YOUR NAME>
+
