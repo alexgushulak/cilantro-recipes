@@ -10,11 +10,52 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// User entity representing users of the app
+model User {
+  userId   Int      @id @default(autoincrement())
+  username String
+  email    String   @unique
+  password String
+  recipes  Recipe[] // One-to-Many relationship: A user can have multiple recipes
+}
+
+// Category entity representing categories for recipes
+model Category {
+  categoryId   Int      @id @default(autoincrement())
+  categoryName String
+  recipes      Recipe[] // One-to-Many relationship: A category can have multiple recipes
+}
+
+// Ingredient entity representing individual ingredients
+model Ingredient {
+  ingredientId     Int                @id @default(autoincrement())
+  ingredientName   String
+  recipes          Recipe[] // Many-to-Many relationship: An ingredient can be used in multiple recipes
+  RecipeIngredient RecipeIngredient[]
+}
+
+// Recipe entity representing individual recipes
 model Recipe {
-  id Int @id @default(autoincrement())
-  createdAt DateTime
-  updatedAt DateTime
-  title String
-  ingredients String
-  directions String
+  recipeId               Int                @id @default(autoincrement())
+  title                  String
+  description            String
+  userId                 Int
+  categoryId             Int
+  user                   User               @relation(fields: [userId], references: [userId])
+  category               Category           @relation(fields: [categoryId], references: [categoryId])
+  ingredients            RecipeIngredient[]
+  Ingredient             Ingredient?        @relation(fields: [ingredientIngredientId], references: [ingredientId])
+  ingredientIngredientId Int?
+}
+
+// Many-to-Many relationship table between Recipe and Ingredient
+model RecipeIngredient {
+  recipeId     Int // Foreign Key referencing Recipe
+  ingredientId Int // Foreign Key referencing Ingredient
+  quantity     String
+  unit         String
+  recipe       Recipe     @relation(fields: [recipeId], references: [recipeId])
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [ingredientId])
+
+  @@id([recipeId, ingredientId])
 }
