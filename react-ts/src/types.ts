@@ -4,5 +4,4 @@ export type Message = {
 
 export type User = {
   name: string
-  messages: Message[]
 }

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Recipe } from '../components/Recipe'
 
 export function UserHome() {
 
@@ -16,6 +17,7 @@ export function UserHome() {
     return (
         <div>
             <h1 className='font-bold'>{user.name}'s Cilantro Recipes</h1>
+            <Recipe />
         </div>
     )
 }
